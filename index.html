@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jimothy The Raccoon Unc | $JIMOTHYUNC</title>
+  <meta name="description" content="Jimothy The Raccoon Unc is the wise OG raccoon, bringing chaos, memes, and unstoppable Solana energy." />
+  <link rel="icon" href="logo.png" type="image/png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            paper: '#FFFAF3',
+            ink: '#1A1A1A',
+            glow: '#FF8A1F',
+            glowsoft: '#FFC46B',
+            scribble: '#2B2B2B',
+          },
+          fontFamily: {
+            marker: ['"Permanent Marker"', 'cursive'],
+            hand: ['"Patrick Hand"', 'cursive'],
+            scribble: ['Caveat', 'cursive'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --glow: #ff8a1f;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: #FFFAF3;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* Lined notebook / paper grain */
+    .paper-bg {
+      background-color: #FFFAF3;
+      background-image:
+        radial-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 31px,
+          rgba(90, 140, 200, 0.08) 31px,
+          rgba(90, 140, 200, 0.08) 32px
+        );
+      background-size: 14px 14px, 100% 32px;
+    }
+
+    /* Hand-drawn wobbly borders via SVG filter */
+    .sketch-border {
+      border: 3px solid var(--ink);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      box-shadow:
+        2px 3px 0 rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+
+    .sketch-border-thick {
+      border: 4px solid var(--ink);
+      border-radius: 40% 60% 55% 45% / 55% 40% 60% 45%;
+    }
+
+    .sketch-btn {
+      border: 3.5px solid var(--ink);
+      border-radius: 255px 20px 225px 20px / 25px 225px 25px 255px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sketch-btn:hover {
+      transform: rotate(-1.5deg) scale(1.04);
+      box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.12), 0 0 24px rgba(255, 138, 31, 0.45);
+    }
+
+    .sketch-btn:active {
+      transform: rotate(0.5deg) scale(0.98);
+    }
+
+    .orange-glow {
+      filter: drop-shadow(0 0 10px rgba(255, 138, 31, 0.75)) drop-shadow(0 0 22px rgba(255, 196, 107, 0.45));
+    }
+
+    .text-glow {
+      text-shadow: 0 0 14px rgba(255, 138, 31, 0.55), 0 0 28px rgba(255, 196, 107, 0.35);
+    }
+
+    /* Squiggly underline */
+    .squiggle {
+      position: relative;
+      display: inline-block;
+    }
+    .squiggle::after {
+      content: '';
+      position: absolute;
+      left: -4%;
+      right: -4%;
+      bottom: -6px;
+      height: 10px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7 Q10 1 20 7 T40 7 T60 7 T80 7 T100 7 T118 7' fill='none' stroke='%23FF8A1F' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+    }
+
+    /* Hand-drawn step number */
+    .step-blob {
+      border: 3px solid var(--ink);
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      background: #fff;
+      box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    /* Social icons — sketchy frames */
+    .social-frame {
+      border: 3px solid var(--ink);
+      border-radius: 48% 52% 50% 50% / 50% 48% 52% 50%;
+      overflow: hidden;
+      background: #fff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+    .social-frame:hover {
+      transform: rotate(-6deg) scale(1.08);
+      box-shadow: 0 0 20px rgba(255, 138, 31, 0.5);
+    }
+    .social-x {
+      background: #0a0a0a;
+    }
+
+    /* Doodle decorations */
+    .doodle {
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.55;
+    }
+
+    /* Wiggle animation for logo */
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2.5deg); }
+    }
+    .wiggle-slow {
+      animation: wiggle 4s ease-in-out infinite;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-10px) rotate(1.5deg); }
+    }
+    .floaty {
+      animation: floaty 5s ease-in-out infinite;
+    }
+
+    @keyframes dash-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Banner sketch frame */
+    .banner-frame {
+      border: 4px solid var(--ink);
+      border-radius: 18px 28px 16px 30px / 28px 16px 30px 18px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 6px 7px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    /* CA box */
+    .ca-box {
+      border: 3px dashed var(--ink);
+      border-radius: 20px 28px 18px 32px / 28px 18px 30px 20px;
+      background: rgba(255, 255, 255, 0.75);
+      font-family: ui-monospace, monospace;
+    }
+
+    /* Dex embed frame */
+    .dex-frame {
+      border: 4px solid var(--ink);
+      border-radius: 22px 30px 20px 34px / 30px 20px 34px 22px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.07);
+      min-height: 440px;
+    }
+    .dex-frame iframe {
+      width: 100%;
+      height: 500px;
+      border: 0;
+      display: block;
+    }
+
+    /* Nav scribble */
+    .nav-bar {
+      border-bottom: 3px solid var(--ink);
+      background: rgba(255, 250, 243, 0.92);
+      backdrop-filter: blur(8px);
+    }
+
+    /* Bubble explosion layer */
+    .bubble-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff 0%, #fff 55%, rgba(255, 255, 255, 0.35) 100%);
+      border: 2px solid rgba(255, 255, 255, 0.95);
+      box-shadow:
+        inset -2px -3px 0 rgba(200, 200, 200, 0.25),
+        0 0 8px rgba(255, 255, 255, 0.9);
+      animation: bubble-pop 0.85s ease-out forwards;
+      will-change: transform, opacity;
+    }
+    @keyframes bubble-pop {
+      0% {
+        transform: translate(0, 0) scale(0.2);
+        opacity: 1;
+      }
+      70% {
+        opacity: 0.95;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(var(--sc));
+        opacity: 0;
+      }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: #fff;
+      border: 3px solid var(--ink);
+      border-radius: 255px 20px 225px 20px / 25px 225px 25px 255px;
+      padding: 10px 22px;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.15rem;
+      z-index: 10000;
+      transition: transform 0.35s ease;
+      box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.1);
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Pen scribble decorations as CSS */
+    .pen-star {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      opacity: 0.4;
+    }
+
+    /* Slight ink bleed on headings */
+    h1, h2, h3 {
+      letter-spacing: 0.02em;
+    }
+
+    .tilt-left { transform: rotate(-1.5deg); }
+    .tilt-right { transform: rotate(1.8deg); }
+
+    @media (max-width: 640px) {
+      .dex-frame iframe { height: 420px; }
+    }
+  </style>
+</head>
+<body class="paper-bg font-hand antialiased">
+
+  <!-- Bubble explosion canvas layer -->
+  <div class="bubble-layer" id="bubbleLayer" aria-hidden="true"></div>
+  <div class="toast" id="toast">CA copied!! ✍️</div>
+
+  <!-- NAV -->
+  <header class="nav-bar sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="#top" class="flex items-center gap-2 group bubble-target" data-bubble>
+        <img src="logo.png" alt="Jimothy logo" class="w-12 h-12 sm:w-14 sm:h-14 object-contain orange-glow wiggle-slow" />
+        <span class="font-marker text-lg sm:text-2xl tracking-wide text-ink group-hover:text-glow transition-colors">
+          $JIMOTHYUNC
+        </span>
+      </a>
+      <nav class="hidden md:flex items-center gap-5 text-lg">
+        <a href="#about" class="hover:text-glow transition-colors bubble-target" data-bubble>About</a>
+        <a href="#howto" class="hover:text-glow transition-colors bubble-target" data-bubble>How to Buy</a>
+        <a href="#chart" class="hover:text-glow transition-colors bubble-target" data-bubble>Chart</a>
+      </nav>
+      <div class="flex items-center gap-2 sm:gap-3">
+        <a href="https://t.me/JIMOTHYUNC" target="_blank" rel="noopener noreferrer"
+           class="social-frame w-10 h-10 sm:w-11 sm:h-11 bubble-target" data-bubble aria-label="Telegram">
+          <img src="tg.png" alt="Telegram" class="w-full h-full object-cover" />
+        </a>
+        <a href="https://x.com/JIMOTHYUNC" target="_blank" rel="noopener noreferrer"
+           class="social-frame social-x w-10 h-10 sm:w-11 sm:h-11 bubble-target" data-bubble aria-label="X / Twitter">
+          <img src="x.png" alt="X" class="w-full h-full object-cover scale-110" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="relative max-w-6xl mx-auto px-4 pt-8 sm:pt-12 pb-10">
+      <!-- doodles -->
+      <svg class="doodle absolute top-4 left-2 sm:left-8 w-16 h-16 text-ink floaty" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M40 8 L46 30 L68 30 L50 44 L56 66 L40 52 L24 66 L30 44 L12 30 L34 30 Z" stroke-linejoin="round"/>
+      </svg>
+      <svg class="doodle absolute top-20 right-4 sm:right-16 w-14 h-14 text-glow" viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="30" cy="30" r="18"/>
+        <path d="M30 8 V16 M30 44 V52 M8 30 H16 M44 30 H52" stroke-linecap="round"/>
+      </svg>
+
+      <div class="text-center mb-6 sm:mb-8">
+        <p class="font-scribble text-2xl sm:text-3xl text-glow mb-1 tilt-left inline-block">meet the OG ✨</p>
+        <h1 class="font-marker text-4xl sm:text-6xl md:text-7xl leading-tight text-glow text-glow mb-3">
+          Jimothy The<br class="sm:hidden" /> Raccoon Unc
+        </h1>
+        <p class="font-scribble text-xl sm:text-2xl text-scribble max-w-2xl mx-auto px-2">
+          Symbol: <span class="font-marker text-glow squiggle">$JIMOTHYUNC</span>
+        </p>
+      </div>
+
+      <div class="banner-frame max-w-4xl mx-auto relative bubble-target" data-bubble>
+        <img src="banner.png" alt="Jimothy The Raccoon Unc banner" class="w-full h-auto block" />
+      </div>
+
+      <p class="mt-8 sm:mt-10 text-center font-scribble text-2xl sm:text-3xl md:text-4xl leading-snug max-w-3xl mx-auto px-2 tilt-right">
+        Jimothy The Raccoon Unc is the wise OG raccoon, bringing chaos, memes, and unstoppable Solana energy.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-5">
+        <a href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=TBA"
+           target="_blank" rel="noopener noreferrer"
+           class="sketch-btn bubble-target bg-glow text-white font-marker text-xl sm:text-2xl px-8 py-3 sm:px-10 sm:py-4 orange-glow"
+           data-bubble>
+          Buy Now
+        </a>
+        <a href="https://dexscreener.com/solana/TBA"
+           target="_blank" rel="noopener noreferrer"
+           class="sketch-btn bubble-target bg-white text-ink font-marker text-xl sm:text-2xl px-8 py-3 sm:px-10 sm:py-4"
+           data-bubble>
+          Chart
+        </a>
+      </div>
+
+      <!-- Copy CA -->
+      <div class="mt-8 max-w-xl mx-auto">
+        <p class="text-center font-scribble text-xl mb-2">contract address (CA)</p>
+        <div class="ca-box flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-3 sm:p-4 bubble-target" data-bubble>
+          <code id="caValue" class="flex-1 text-sm sm:text-base break-all text-center sm:text-left px-2 py-1 select-all">TBA</code>
+          <button type="button" id="copyCa"
+                  class="sketch-btn bubble-target bg-ink text-white font-marker text-lg px-5 py-2 shrink-0"
+                  data-bubble>
+            Copy CA
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="relative max-w-5xl mx-auto px-4 py-14 sm:py-20">
+      <div class="sketch-border bg-white/80 p-6 sm:p-10 tilt-left bubble-target" data-bubble>
+        <div class="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+          <img src="logo.png" alt="Jimothy" class="w-40 h-40 sm:w-48 sm:h-48 object-contain orange-glow floaty shrink-0" />
+          <div class="text-center md:text-left">
+            <h2 class="font-marker text-3xl sm:text-4xl mb-3 squiggle inline-block">Who is Jimothy?</h2>
+            <p class="font-scribble text-xl sm:text-2xl leading-relaxed mt-4">
+              He's the wise OG raccoon Unc — shades on, chaos unlocked.
+              Born from pen scribbles and Solana vibes, Jimothy brings memes,
+              mischief, and that unstoppable raccoon energy to the chain.
+            </p>
+            <p class="font-hand text-lg sm:text-xl mt-4 text-scribble/80">
+              No roadmap. No mercy. Just $JIMOTHYUNC.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- pen doodle arrow -->
+      <svg class="doodle mx-auto mt-10 w-20 h-24 text-ink" viewBox="0 0 40 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M20 4 C22 20 18 35 20 48"/>
+        <path d="M12 42 L20 54 L28 42"/>
+      </svg>
+    </section>
+
+    <!-- HOW TO BUY -->
+    <section id="howto" class="relative max-w-6xl mx-auto px-4 py-10 sm:py-16">
+      <div class="text-center mb-10 sm:mb-14">
+        <h2 class="font-marker text-4xl sm:text-5xl text-glow squiggle inline-block">How to Buy</h2>
+        <p class="font-scribble text-xl sm:text-2xl mt-4 text-scribble">
+          Grab $JIMOTHYUNC on Solana in 4 messy steps
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-5 sm:gap-7">
+        <!-- Step 1 -->
+        <article class="sketch-border bg-white/85 p-5 sm:p-7 bubble-target relative" data-bubble style="transform: rotate(-1deg)">
+          <div class="step-blob w-12 h-12 flex items-center justify-center font-marker text-2xl mb-3 bg-glowsoft">1</div>
+          <h3 class="font-marker text-2xl mb-2">Get a Solana Wallet</h3>
+          <p class="font-scribble text-xl leading-snug">
+            Download <span class="font-marker text-glow">Phantom</span> or Solflare.
+            Create a wallet and keep your seed phrase secret — Unc says so.
+          </p>
+          <svg class="absolute bottom-3 right-4 w-10 h-10 doodle text-ink" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="8" y="12" width="24" height="18" rx="2"/>
+            <path d="M14 12 V10 a6 6 0 0 1 12 0 v2"/>
+          </svg>
+        </article>
+
+        <!-- Step 2 -->
+        <article class="sketch-border bg-white/85 p-5 sm:p-7 bubble-target relative" data-bubble style="transform: rotate(1.2deg)">
+          <div class="step-blob w-12 h-12 flex items-center justify-center font-marker text-2xl mb-3 bg-glowsoft">2</div>
+          <h3 class="font-marker text-2xl mb-2">Load Up SOL</h3>
+          <p class="font-scribble text-xl leading-snug">
+            Buy SOL on an exchange, then send it to your Solana wallet address.
+            Need gas for the swap — raccoon tax is real.
+          </p>
+          <svg class="absolute bottom-3 right-4 w-10 h-10 doodle text-glow" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="20" cy="20" r="12"/>
+            <text x="20" y="25" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-family="Permanent Marker">◎</text>
+          </svg>
+        </article>
+
+        <!-- Step 3 -->
+        <article class="sketch-border bg-white/85 p-5 sm:p-7 bubble-target relative" data-bubble style="transform: rotate(0.8deg)">
+          <div class="step-blob w-12 h-12 flex items-center justify-center font-marker text-2xl mb-3 bg-glowsoft">3</div>
+          <h3 class="font-marker text-2xl mb-2">Open the Swap</h3>
+          <p class="font-scribble text-xl leading-snug">
+            Hit <span class="font-marker text-glow">Buy Now</span> to open pump.fun swap,
+            or paste the CA into your favorite Solana DEX.
+          </p>
+          <svg class="absolute bottom-3 right-4 w-10 h-10 doodle text-ink" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M10 28 L30 12"/>
+            <path d="M22 12 H30 V20"/>
+          </svg>
+        </article>
+
+        <!-- Step 4 -->
+        <article class="sketch-border bg-white/85 p-5 sm:p-7 bubble-target relative" data-bubble style="transform: rotate(-1.3deg)">
+          <div class="step-blob w-12 h-12 flex items-center justify-center font-marker text-2xl mb-3 bg-glowsoft">4</div>
+          <h3 class="font-marker text-2xl mb-2">Swap SOL → $JIMOTHYUNC</h3>
+          <p class="font-scribble text-xl leading-snug">
+            Confirm the swap, wait a sec, and boom —
+            you're holding $JIMOTHYUNC. Welcome to the Unc club.
+          </p>
+          <svg class="absolute bottom-3 right-4 w-10 h-10 doodle text-glow" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M8 22 L16 30 L32 10" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </article>
+      </div>
+
+      <div class="mt-10 flex justify-center">
+        <a href="https://swap.pump.fun/?input=So11111111111111111111111111111111111111112&output=TBA"
+           target="_blank" rel="noopener noreferrer"
+           class="sketch-btn bubble-target bg-glow text-white font-marker text-xl sm:text-2xl px-8 py-3 orange-glow"
+           data-bubble>
+          Buy $JIMOTHYUNC Now
+        </a>
+      </div>
+    </section>
+
+    <!-- CHART / DEXSCREENER -->
+    <section id="chart" class="relative max-w-6xl mx-auto px-4 py-14 sm:py-20">
+      <div class="text-center mb-8">
+        <h2 class="font-marker text-4xl sm:text-5xl squiggle inline-block">Live Chart</h2>
+        <p class="font-scribble text-xl sm:text-2xl mt-4">DexScreener · Solana · $JIMOTHYUNC</p>
+      </div>
+
+      <div class="dex-frame bubble-target" data-bubble>
+        <iframe
+          title="DexScreener Chart"
+          src="https://dexscreener.com/solana/TBA?embed=1&theme=light&trades=0&info=0"
+          allow="clipboard-write"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <div class="mt-6 flex flex-wrap justify-center gap-4">
+        <a href="https://dexscreener.com/solana/TBA"
+           target="_blank" rel="noopener noreferrer"
+           class="sketch-btn bubble-target bg-white font-marker text-lg sm:text-xl px-6 py-2"
+           data-bubble>
+          Open DexScreener ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section class="max-w-4xl mx-auto px-4 pb-16 sm:pb-24">
+      <div class="sketch-border-thick bg-white/90 p-8 sm:p-12 text-center bubble-target" data-bubble style="transform: rotate(-0.5deg)">
+        <h2 class="font-marker text-3xl sm:text-4xl mb-3">Join the Chaos</h2>
+        <p class="font-scribble text-xl sm:text-2xl mb-8 max-w-lg mx-auto">
+          Hop in Telegram &amp; X — memes, vibes, and Unc wisdom only.
+        </p>
+        <div class="flex items-center justify-center gap-6">
+          <a href="https://t.me/JIMOTHYUNC" target="_blank" rel="noopener noreferrer"
+             class="social-frame w-16 h-16 sm:w-20 sm:h-20 bubble-target" data-bubble aria-label="Telegram">
+            <img src="tg.png" alt="Telegram" class="w-full h-full object-cover" />
+          </a>
+          <a href="https://x.com/JIMOTHYUNC" target="_blank" rel="noopener noreferrer"
+             class="social-frame social-x w-16 h-16 sm:w-20 sm:h-20 bubble-target" data-bubble aria-label="X">
+            <img src="x.png" alt="X" class="w-full h-full object-cover scale-110" />
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t-[3px] border-ink py-8 text-center px-4">
+    <div class="flex items-center justify-center gap-2 mb-2">
+      <img src="logo.png" alt="" class="w-8 h-8 object-contain orange-glow" />
+      <span class="font-marker text-lg">$JIMOTHYUNC</span>
+    </div>
+    <p class="font-scribble text-lg text-scribble/70">
+      Jimothy The Raccoon Unc · drawn with chaos on Solana
+    </p>
+    <p class="font-hand text-sm mt-2 opacity-60">
+      Not financial advice. DYOR. Memes only.
+    </p>
+  </footer>
+
+  <script>
+    (function () {
+      const CA = 'TBA';
+      const layer = document.getElementById('bubbleLayer');
+      const toast = document.getElementById('toast');
+      const copyBtn = document.getElementById('copyCa');
+      const caEl = document.getElementById('caValue');
+
+      caEl.textContent = CA;
+
+      function spawnBubbles(x, y, count) {
+        const n = count || 14 + Math.floor(Math.random() * 10);
+        for (let i = 0; i < n; i++) {
+          const b = document.createElement('span');
+          b.className = 'bubble';
+          const size = 8 + Math.random() * 28;
+          const angle = Math.random() * Math.PI * 2;
+          const dist = 40 + Math.random() * 120;
+          const tx = Math.cos(angle) * dist;
+          const ty = Math.sin(angle) * dist - 20;
+          const sc = 0.4 + Math.random() * 1.4;
+          b.style.width = size + 'px';
+          b.style.height = size + 'px';
+          b.style.left = (x - size / 2) + 'px';
+          b.style.top = (y - size / 2) + 'px';
+          b.style.setProperty('--tx', tx + 'px');
+          b.style.setProperty('--ty', ty + 'px');
+          b.style.setProperty('--sc', sc);
+          b.style.animationDuration = (0.55 + Math.random() * 0.5) + 's';
+          layer.appendChild(b);
+          b.addEventListener('animationend', () => b.remove());
+        }
+      }
+
+      // Hover bubble explosion on interactive elements
+      let lastBurst = 0;
+      document.querySelectorAll('[data-bubble]').forEach((el) => {
+        el.addEventListener('mouseenter', (e) => {
+          const now = Date.now();
+          if (now - lastBurst < 180) return;
+          lastBurst = now;
+          const rect = el.getBoundingClientRect();
+          const x = rect.left + rect.width / 2;
+          const y = rect.top + rect.height / 2;
+          spawnBubbles(x, y, 16);
+        });
+        el.addEventListener('click', (e) => {
+          spawnBubbles(e.clientX, e.clientY, 22);
+        });
+      });
+
+      // Also explode on general hoverable links/buttons that might miss data-bubble
+      document.body.addEventListener('mouseover', (e) => {
+        const t = e.target.closest('a, button, .sketch-border, .banner-frame, .social-frame');
+        if (!t || t.dataset.bubbleFired) return;
+        // light trail bubbles follow cursor occasionally on sketch areas
+      });
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove('show'), 1800);
+      }
+
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(CA);
+          showToast('CA copied!! ✍️');
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(caEl);
+          const sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          showToast('Select & copy the CA!');
+        }
+        spawnBubbles(
+          copyBtn.getBoundingClientRect().left + 40,
+          copyBtn.getBoundingClientRect().top + 20,
+          20
+        );
+      });
+    })();
+  </script>
+</body>
+</html>
